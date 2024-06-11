@@ -20,10 +20,10 @@ public class Payload {
 				+ "}";
 	}
 	
-	public static String updatePlace(String placeId) {
+	public static String updatePlace(String placeId, String newAddress) {
 		return "{\r\n"
 				+ "\"place_id\":\""+placeId+"\",\r\n"
-				+ "\"address\":\"70 winter walk, USA\",\r\n"
+				+ "\"address\":\""+newAddress+"\",\r\n"
 				+ "\"key\":\"qaclick123\"\r\n"
 				+ "}";
 	}

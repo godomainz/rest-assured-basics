@@ -20,10 +20,21 @@ public class Basics {
 		System.out.println(placeId);
 		
 		// update place
+		String newAddress = "70 winter walk, USA";
+		
 		given().log().all().queryParam("key", "qaclick123").header("Content-Type","application/json")
-		.body(Payload.updatePlace(placeId))
+		.body(Payload.updatePlace(placeId, newAddress))
 		.when().put("maps/api/place/update/json")
 		.then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"));
+		
+		// Get place
+		String getPlaceResponse = given().log().all().queryParam("key", "qaclick123").queryParam("place_id", placeId)
+		.when().get("maps/api/place/get/json")
+		.then().assertThat().statusCode(200).extract().response().asString();
+		
+		JsonPath getPlaceJs = new JsonPath(getPlaceResponse);
+		String actualAddress = getPlaceJs.getString("address");
+		System.out.println(actualAddress);
 	}
 
 
