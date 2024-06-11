@@ -27,6 +27,16 @@ public class ComplexJsonParse {
 			System.out.println(courseTitle+" "+coursePrice);
 		}
 		
+		//Print no of copies sold by RPA Course
+		for(int i=0; i<courseCount; i++) {
+			String courseTitle = js.get("courses["+i+"].title");
+			if(courseTitle.equalsIgnoreCase("RPA")) {
+				int copiesCount = js.get("courses["+i+"].copies");
+				System.out.println("No of copies sold by RPA Course: "+copiesCount);
+				break;
+			}
+	
+		}
 	}
 
 }
