@@ -19,6 +19,11 @@ public class Basics {
 		String placeId = js.getString("place_id");
 		System.out.println(placeId);
 		
+		// update place
+		given().log().all().queryParam("key", "qaclick123").header("Content-Type","application/json")
+		.body(Payload.updatePlace(placeId))
+		.when().put("maps/api/place/update/json")
+		.then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"));
 	}
 
 
