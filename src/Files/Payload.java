@@ -77,4 +77,15 @@ public class Payload {
 				+ "}";
 		return payload;
 	}
+	
+	public static String addComment() {
+		String payload = "{\r\n"
+				+ "    \"body\": \"Hey I have commented from REST API\",\r\n"
+				+ "    \"visibility\": {\r\n"
+				+ "        \"type\": \"role\",\r\n"
+				+ "        \"value\": \"Administrators\"\r\n"
+				+ "    }\r\n"
+				+ "}";
+		return payload;
+	}
 }
