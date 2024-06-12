@@ -5,13 +5,15 @@ import io.restassured.path.json.JsonPath;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
+import java.io.IOException;
+
 import org.testng.Assert;
 
 import Files.Payload;
 import Files.ReusableMethods;
 
 public class Basics {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		RestAssured.baseURI = "https://rahulshettyacademy.com";
 		String response = given().log().all().queryParam("key", "qaclick123").header("Content-Type","application/json")
 		.body(Payload.addPlace())
