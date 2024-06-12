@@ -1,11 +1,14 @@
 package JIRA;
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;
+import io.restassured.path.json.JsonPath;
+
 import static io.restassured.RestAssured.*;
 import java.io.File;
 import java.io.IOException;
 
 import Files.Payload;
+import Files.ReusableMethods;
 public class JiraTest {
 
 	public static void main(String[] args) throws IOException {
@@ -19,22 +22,35 @@ public class JiraTest {
 		.then().assertThat().statusCode(200).extract().response().asString();
 		
 		//Add Comment
-		String message = "Hey I have commented from REST API 5";
-		given().log().all().pathParam("key", 10005).header("Content-Type", "application/json").body(Payload.jiraAddComment(message))
+		String message = "Hey I have commented from REST API 6";
+		 given().log().all().pathParam("key", 10005).header("Content-Type", "application/json").body(Payload.jiraAddComment(message))
 		.filter(session)
 		.when().post("/rest/api/2/issue/{key}/comment")
 		.then().log().all().assertThat().statusCode(201);
 		
 		//Add Attachment
-		given().pathParam("key", 10005).header("X-Atlassian-Token","no-check").header("Content-Type","multipart/form-data").filter(session).multiPart("file",Payload.getAttachment())
+		String addCommentRes = given().pathParam("key", 10005).header("X-Atlassian-Token","no-check").header("Content-Type","multipart/form-data").filter(session).multiPart("file",Payload.getAttachment())
 		.when().post("/rest/api/2/issue/{key}/attachments")
-		.then().assertThat().statusCode(200);
+		.then().assertThat().statusCode(200).extract().response().asString();
+		
+		JsonPath addCommentResJS = ReusableMethods.rawToJson(addCommentRes);
+		String commentID = addCommentResJS.getString("id");
+		
 		
 		//Get issue
-		given().pathParam("key", 10005).queryParam("fields", "comment").header("Content-Type", "application/json")
+		String issueDetails = given().pathParam("key", 10005).queryParam("fields", "comment").header("Content-Type", "application/json")
 		.filter(session)
 		.when().get("/rest/api/2/issue/{key}")
-		.then().log().all().assertThat().statusCode(200);
+		.then().log().all().assertThat().statusCode(200).extract().response().asString();
+		
+		JsonPath js = ReusableMethods.rawToJson(issueDetails);
+		int commentsCount = js.getInt("fields.comment.comments.size()");
+		for(int i=0; i<commentsCount;i++) {
+			String curentCommentID = js.get("fields.comment.comments["+i+"].id");
+			if(commentID.equals(curentCommentID)) {
+				String currentMessage = js.getString("fields.comment.comments["+i+"].body");
+			}
+		}
 
 	}
 
