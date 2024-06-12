@@ -1,5 +1,6 @@
 package Files;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -92,5 +93,11 @@ public class Payload {
 	public static String jiraLogin(String userName, String password) {
 		String payload = "{ \"username\": \""+userName+"\", \"password\": \""+password+"\" }";
 		return payload;
+	}
+	
+	public static File getAttachment() throws IOException {
+		String currentPath = new java.io.File(".").getCanonicalPath();
+		String fullPath = currentPath+"\\src\\JIRA\\"+"jira.txt";
+		return new File(fullPath);
 	}
 }
