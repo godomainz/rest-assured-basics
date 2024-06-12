@@ -78,14 +78,19 @@ public class Payload {
 		return payload;
 	}
 	
-	public static String addComment() {
+	public static String jiraAddComment(String message) {
 		String payload = "{\r\n"
-				+ "    \"body\": \"Hey I have commented from REST API\",\r\n"
+				+ "    \"body\": \""+message+"\",\r\n"
 				+ "    \"visibility\": {\r\n"
 				+ "        \"type\": \"role\",\r\n"
 				+ "        \"value\": \"Administrators\"\r\n"
 				+ "    }\r\n"
 				+ "}";
+		return payload;
+	}
+	
+	public static String jiraLogin(String userName, String password) {
+		String payload = "{ \"username\": \""+userName+"\", \"password\": \""+password+"\" }";
 		return payload;
 	}
 }
