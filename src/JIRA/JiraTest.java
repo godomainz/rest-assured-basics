@@ -19,7 +19,7 @@ public class JiraTest {
 		.then().assertThat().statusCode(200).extract().response().asString();
 		
 		//Add Comment
-		String message = "Hey I have commented from REST API 3";
+		String message = "Hey I have commented from REST API 5";
 		given().log().all().pathParam("key", 10005).header("Content-Type", "application/json").body(Payload.jiraAddComment(message))
 		.filter(session)
 		.when().post("/rest/api/2/issue/{key}/comment")
@@ -29,6 +29,12 @@ public class JiraTest {
 		given().pathParam("key", 10005).header("X-Atlassian-Token","no-check").header("Content-Type","multipart/form-data").filter(session).multiPart("file",Payload.getAttachment())
 		.when().post("/rest/api/2/issue/{key}/attachments")
 		.then().assertThat().statusCode(200);
+		
+		//Get issue
+		given().pathParam("key", 10005).queryParam("fields", "comment").header("Content-Type", "application/json")
+		.filter(session)
+		.when().get("/rest/api/2/issue/{key}")
+		.then().log().all().assertThat().statusCode(200);
 
 	}
 
