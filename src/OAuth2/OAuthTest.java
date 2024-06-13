@@ -1,8 +1,12 @@
 package OAuth2;
 
 import static io.restassured.RestAssured.*;
+
+import java.util.List;
+
 import Files.ReusableMethods;
 import POJO.GetCourse;
+import POJO.Course.API;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
@@ -27,6 +31,22 @@ public class OAuthTest {
 		.when().get("/oauthapi/getCourseDetails").as(GetCourse.class);
 		
 		System.out.println(courceDetails.getLinkedIn());
+		
+		String courseTitle = courceDetails.getCourses().getApi().get(0).getCourseTitle();
+		System.out.println(courseTitle);
+		
+		List<API> apiCourses = courceDetails.getCourses().getApi();
+		String expectedCourseTitle = "SoapUI Webservices testing";
+		
+		for(int i=0; i<apiCourses.size(); i++) {
+			courseTitle = apiCourses.get(i).getCourseTitle();
+			if(courseTitle.equalsIgnoreCase(expectedCourseTitle)) {
+				String price = apiCourses.get(i).getPrice();
+				System.out.println(price);
+				break;
+			}
+		}
+		
 
 	}
 
