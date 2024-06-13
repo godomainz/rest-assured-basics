@@ -1,7 +1,8 @@
 package OAuth2;
-import static io.restassured.RestAssured.*;
 
+import static io.restassured.RestAssured.*;
 import Files.ReusableMethods;
+import POJO.GetCourse;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
@@ -22,10 +23,10 @@ public class OAuthTest {
 		JsonPath js = ReusableMethods.rawToJson(response);
 		String access_token = js.getString("access_token");
 		
-		String courceDetails = given().queryParams("access_token",access_token)
-		.when().get("/oauthapi/getCourseDetails").asString();
+		GetCourse courceDetails = given().queryParams("access_token",access_token)
+		.when().get("/oauthapi/getCourseDetails").as(GetCourse.class);
 		
-		System.out.println(courceDetails);
+		System.out.println(courceDetails.getLinkedIn());
 
 	}
 
