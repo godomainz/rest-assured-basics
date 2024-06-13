@@ -1,18 +1,23 @@
 package OAuth2;
 
 import static io.restassured.RestAssured.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import org.testng.Assert;
 import Files.ReusableMethods;
 import POJO.GetCourse;
 import POJO.Course.API;
+import POJO.Course.WebAutomation;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
 public class OAuthTest {
 
 	public static void main(String[] args) {
+		
+		String[] expectedCourseTitles = {"Selenium Webdriver Java", "Cypress", "Protractor"};
+		
 		RestAssured.baseURI = "https://rahulshettyacademy.com";
 		
 		String client_id = "692183103107-p0m7ent2hk7suguv4vq22hjcfhcr43pj.apps.googleusercontent.com";
@@ -47,6 +52,18 @@ public class OAuthTest {
 			}
 		}
 		
+		List<WebAutomation> webAutopationCourses = courceDetails.getCourses().getWebAutomation();
+		ArrayList<String> actualTitles = new ArrayList<String>();
+		
+		for (int i=0; i<webAutopationCourses.size(); i++) {
+			WebAutomation course = webAutopationCourses.get(i);
+			System.out.println(course.getCourseTitle());
+			actualTitles.add(course.getCourseTitle());
+		}
+		
+		List<String> expectedList = Arrays.asList(expectedCourseTitles);
+		
+		Assert.assertTrue(actualTitles.equals(expectedList));
 
 	}
 
