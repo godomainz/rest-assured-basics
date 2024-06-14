@@ -2,17 +2,22 @@ package ECommerce;
 
 import static io.restassured.RestAssured.*;
 
+import java.io.IOException;
+
 import ECommerce.RequestClasses.User;
+import ECommerce.ResponceClasses.AddProductResponse;
 import ECommerce.ResponceClasses.LoginResponse;
+import Files.Payload;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 public class ECommerceAPITest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		String baseURI = "https://rahulshettyacademy.com";
 		
@@ -31,6 +36,23 @@ public class ECommerceAPITest {
 		
 		System.out.println(token);
 		
+		RequestSpecification addProductBaseReqSpec = new RequestSpecBuilder().addHeader("Authorization", token).setBaseUri(baseURI).build();
+		RequestSpecification addProductReqSpec =given().log().all().spec(addProductBaseReqSpec)
+		.param("productName", "Addidas Shirt1")
+		.param("productAddedBy", userId)
+		.param("productCategory", "fashion")
+		.param("productSubCategory", "shirts")
+		.param("productPrice", "11500")
+		.param("productDescription", "Addias Originals")
+		.param("productFor", "women")
+		.multiPart("productImage",Payload.getProductImage());
+		
+		AddProductResponse addProductRes = addProductReqSpec.when().post("/api/ecom/product/add-product")
+				.then().extract().response().as(AddProductResponse.class);
+		
+		String productId = addProductRes.getProductId();
+		
+		System.out.println(productId);
 
 	}
 

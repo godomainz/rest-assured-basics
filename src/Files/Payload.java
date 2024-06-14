@@ -100,4 +100,10 @@ public class Payload {
 		String fullPath = currentPath+"\\src\\JIRA\\"+"jira.txt";
 		return new File(fullPath);
 	}
+	
+	public static File getProductImage() throws IOException {
+		String currentPath = new java.io.File(".").getCanonicalPath();
+		String fullPath = currentPath+"\\src\\ECommerce\\"+"womens_shirt.jpeg";
+		return new File(fullPath);
+	}
 }
