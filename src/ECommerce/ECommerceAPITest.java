@@ -1,16 +1,16 @@
 package ECommerce;
 
 import static io.restassured.RestAssured.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.testng.Assert;
 import ECommerce.RequestClasses.Order;
 import ECommerce.RequestClasses.Orders;
 import ECommerce.RequestClasses.User;
 import ECommerce.ResponceClasses.AddProductResponse;
 import ECommerce.ResponceClasses.CreateOrderResponse;
+import ECommerce.ResponceClasses.DeleteProductResponse;
 import ECommerce.ResponceClasses.LoginResponse;
 import Files.Payload;
 import io.restassured.builder.RequestSpecBuilder;
@@ -32,7 +32,7 @@ public class ECommerceAPITest {
 		RequestSpecification req = new RequestSpecBuilder().setContentType(ContentType.JSON).setBaseUri(baseURI).build();
 		ResponseSpecification res = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 		
-		RequestSpecification reqSpec= given().spec(req).body(user);
+		RequestSpecification reqSpec= given().relaxedHTTPSValidation().spec(req).body(user);
 		LoginResponse loginResponse =  reqSpec.when().post("/api/ecom/auth/login").then().spec(res).extract().response().as(LoginResponse.class);
 		
 		String token = loginResponse.getToken();
@@ -42,7 +42,7 @@ public class ECommerceAPITest {
 		
 		RequestSpecification addProductBaseReqSpec = new RequestSpecBuilder().addHeader("Authorization", token).setBaseUri(baseURI).build();
 		RequestSpecification addProductReqSpec =given().log().all().spec(addProductBaseReqSpec)
-		.param("productName", "Addidas Shirt3")
+		.param("productName", "Addidas Shirt")
 		.param("productAddedBy", userId)
 		.param("productCategory", "fashion")
 		.param("productSubCategory", "shirts")
@@ -74,7 +74,11 @@ public class ECommerceAPITest {
 		
 		System.out.println(createOrderResponse.getOrders());
 		
+		RequestSpecification deleteProductBaseReqSpec = new RequestSpecBuilder().addHeader("Authorization", token).setBaseUri(baseURI).setContentType(ContentType.JSON).addPathParam("productId", productId).build();
+		DeleteProductResponse deleteProductResponse= given().spec(deleteProductBaseReqSpec).delete("/api/ecom/product/delete-product/{productId}").then().extract().as(DeleteProductResponse.class);
 
+		System.out.println(deleteProductResponse.getMessage());
+		Assert.assertEquals("Product Deleted Successfully", deleteProductResponse.getMessage());
 	}
 
 }
