@@ -1,6 +1,7 @@
 package Files;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -105,5 +106,13 @@ public class Payload {
 		String currentPath = new java.io.File(".").getCanonicalPath();
 		String fullPath = currentPath+"\\src\\ECommerce\\"+"womens_shirt.jpeg";
 		return new File(fullPath);
+	}
+	
+	public static FileInputStream getExcel() throws IOException {
+		String currentPath = new java.io.File(".").getCanonicalPath();
+		String fullPath = currentPath+"\\src\\POI\\"+"demodata.xlsx";
+		FileInputStream file = new FileInputStream(fullPath);
+		return file;
+		
 	}
 }
