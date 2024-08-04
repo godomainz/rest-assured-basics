@@ -1,0 +1,56 @@
+{
+	"categories":[
+		{
+			"name":"Fruit Juice & Drinks",
+			"imagePath":"images/categories/fruit_juice_drinks.jpeg"
+		},
+		{
+			"name":"Porridge",
+			"imagePath":"images/categories/porridge.jpg"
+		},
+		{
+			"name":"Breakfast",
+			"imagePath":"images/categories/breakfast.jpg"
+		},
+		{
+			"name":"Soups",
+			"imagePath":"images/categories/soups.jpg"
+		},
+		{
+			"name":"Rice",
+			"imagePath":"images/categories/rice.jpg"
+		},
+		{
+			"name":"Varieties of Meat",
+			"imagePath":"images/categories/meat.jpg"
+		},
+		{
+			"name":"Curries",
+			"imagePath":"images/categories/curries.jpg"
+		},
+		{
+			"name":"Mallum",
+			"imagePath":"images/categories/mallum.jpg"
+		},
+		{
+			"name":"Varieties of Pickel, Moju, & Sambole",
+			"imagePath":"images/categories/moju.jpg"
+		},
+		{
+			"name":"Short Eats",
+			"imagePath":"images/categories/short_eats.jpg"
+		},
+		{
+			"name":"Mislellandeous Recipes",
+			"imagePath":"images/categories/mislellandeous_recipes.png"
+		},
+		{
+			"name":"Desserts",
+			"imagePath":"images/categories/desserts.jpg"
+		},
+		{
+			"name":"Mixtures",
+			"imagePath":"images/categories/mixtures.jpg"
+		}
+	]
+}
